@@ -1,28 +1,38 @@
 package com.ECFObjet.entites;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class ClasseProspect extends ClasseSociete {
     private LocalDate dateProspection;
     private boolean estInteresse;
-    private int prochainIdentifiantProspect;
+    private static int prochainIdentifiantProspect = 1;
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public ClasseProspect(int identifiant, String raisonSociale, String adresse, String telephone, String email, LocalDate dateProspection, boolean estInteresse, int prochainIdentifiantProspect) {
-        super(prochainIdentifiantProspect ++, raisonSociale, adresse, telephone, email);
+    public ClasseProspect( String raisonSociale, String adresse, String telephone, String email, String dateProspection, boolean estInteresse) {
+        super( raisonSociale, adresse, telephone, email);
         setDateProspection(dateProspection);
         setEstInteresse(estInteresse);
-        setProchainIdentifiantProspect(prochainIdentifiantProspect);
+        setIdentifiant(prochainIdentifiantProspect++);
     }
 
-    public LocalDate getDateProspection() {
-        return dateProspection;
+    public String getDateProspection() {
+
+        return this.dateProspection.format(DATE_FORMAT);
     }
 
-    public void setDateProspection(LocalDate dateProspection) {
-        this.dateProspection = dateProspection;
+    public void setDateProspection(String dateProspection) {
+        try {
+            this.dateProspection = LocalDate.parse(dateProspection, DATE_FORMAT);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("La date doit être au format jj/mm/aaaa.");
+        }
     }
 
-    public boolean isEstInteresse() {
+
+
+    public boolean getEstInteresse() {
         return estInteresse;
     }
 

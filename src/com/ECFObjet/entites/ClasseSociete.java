@@ -14,8 +14,7 @@ abstract class ClasseSociete {
     private String email;
 
 
-    public ClasseSociete(int identifiant, String raisonSociale, String adresse, String telephone, String email) {
-        setIdentifiant(identifiant);
+    public ClasseSociete( String raisonSociale, String adresse, String telephone, String email) {
         setRaisonSociale(raisonSociale);
         setAdresse(adresse);
         setTelephone(telephone);

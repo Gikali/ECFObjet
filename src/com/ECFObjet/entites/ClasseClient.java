@@ -5,17 +5,22 @@ public class ClasseClient extends ClasseSociete {
     private int nombreEmployes;
     private static  int prochainIdentifiantClient = 1;
 
-    public ClasseClient(int identifiant, String raisonSociale, String adresse, String telephone, String email, long chiffreAffaires, int nombreEmployes) {
-        super(prochainIdentifiantClient ++, raisonSociale, adresse, telephone, email);
+    public ClasseClient ( String raisonSociale, String adresse, String telephone, String email, long chiffreAffaires, int nombreEmployes) {
+        super( raisonSociale, adresse, telephone, email);
+
         setChiffreAffaires(chiffreAffaires);
         setNombreEmployes(nombreEmployes);
+        setIdentifiant(prochainIdentifiantClient++);
     }
 
     public long getChiffreAffaires() {
         return chiffreAffaires;
     }
 
-    public void setChiffreAffaires(long chiffreAffaires) {
+    public void setChiffreAffaires(long chiffreAffaires) throws IllegalArgumentException {
+        if (chiffreAffaires < 200) {
+            throw new IllegalArgumentException("Le chiffre d'affaires doit être supérieur à 200");
+        }
         this.chiffreAffaires = chiffreAffaires;
     }
 
@@ -24,6 +29,9 @@ public class ClasseClient extends ClasseSociete {
     }
 
     public void setNombreEmployes(int nombreEmployes) {
+        if (nombreEmployes <= 0) {
+            throw new IllegalArgumentException("Le nombre d'employés doit être surpérieur à 0");
+        }
         this.nombreEmployes = nombreEmployes;
     }
 

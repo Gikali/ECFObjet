@@ -8,6 +8,7 @@ public class GestionnaireClient {
     public void ajoutClient (ClasseSociete client) {
         gestClient.add(client);
     }
+
     public static ArrayList<ClasseSociete> getGestClient() {
         return gestClient;
     }
