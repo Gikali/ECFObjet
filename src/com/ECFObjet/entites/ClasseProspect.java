@@ -7,6 +7,13 @@ public class ClasseProspect extends ClasseSociete {
     private boolean estInteresse;
     private int prochainIdentifiantProspect;
 
+    public ClasseProspect(int identifiant, String raisonSociale, String adresse, String telephone, String email, LocalDate dateProspection, boolean estInteresse, int prochainIdentifiantProspect) {
+        super(prochainIdentifiantProspect ++, raisonSociale, adresse, telephone, email);
+        setDateProspection(dateProspection);
+        setEstInteresse(estInteresse);
+        setProchainIdentifiantProspect(prochainIdentifiantProspect);
+    }
+
     public LocalDate getDateProspection() {
         return dateProspection;
     }

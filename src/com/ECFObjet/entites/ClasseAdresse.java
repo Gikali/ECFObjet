@@ -9,11 +9,12 @@ public class ClasseAdresse {
     public ClasseAdresse() {
 
     }
-    public ClasseAdresse(int numeroRue,String nomRue, String ville, String codePostal) {
+
+    public ClasseAdresse(int numeroRue, String nomRue, String ville, String codePostal) {
         setNumeroRue(numeroRue);
         setNomRue(nomRue);
         setVille(ville);
-       setCodePostal(codePostal);
+        setCodePostal(codePostal);
     }
 
     public int getNumeroRue() {

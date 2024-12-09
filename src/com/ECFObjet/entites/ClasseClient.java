@@ -3,7 +3,13 @@ package com.ECFObjet.entites;
 public class ClasseClient extends ClasseSociete {
     private long chiffreAffaires;
     private int nombreEmployes;
-    private  int prochainIdentifiantClient;
+    private static  int prochainIdentifiantClient = 1;
+
+    public ClasseClient(int identifiant, String raisonSociale, String adresse, String telephone, String email, long chiffreAffaires, int nombreEmployes) {
+        super(prochainIdentifiantClient ++, raisonSociale, adresse, telephone, email);
+        setChiffreAffaires(chiffreAffaires);
+        setNombreEmployes(nombreEmployes);
+    }
 
     public long getChiffreAffaires() {
         return chiffreAffaires;
@@ -28,4 +34,7 @@ public class ClasseClient extends ClasseSociete {
     public void setProchainIdentifiantClient(int prochainIdentifiantClient) {
         this.prochainIdentifiantClient = prochainIdentifiantClient;
     }
+
+
+
 }
