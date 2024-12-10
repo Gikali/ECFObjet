@@ -2,12 +2,12 @@ package com.ECFObjet.entites;
 import java.util.ArrayList;
 
 public class GestionnaireProspect {
-    private static ArrayList<ClasseSociete> gestprospect = new ArrayList<>();
+    private static ArrayList<ClasseProspect> gestprospect = new ArrayList<>();
 
-    public static void ajoutProspect(ClasseSociete prospects){
+    public static void ajoutProspect(ClasseProspect prospects){
         gestprospect.add(prospects);
     }
-    public static ArrayList<ClasseSociete> getGestProspect(){
+    public static ArrayList<ClasseProspect> getGestProspect(){
         return gestprospect;
     }
 }

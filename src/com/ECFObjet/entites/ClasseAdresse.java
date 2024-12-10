@@ -1,5 +1,7 @@
 package com.ECFObjet.entites;
 
+import com.ECFObjet.utility.Regex;
+
 public class ClasseAdresse {
     private int numeroRue;
     private String nomRue;
@@ -38,7 +40,11 @@ public class ClasseAdresse {
     }
 
     public void setCodePostal(String codePostal) {
-        this.codePostal = codePostal;
+        if (!codePostal.matches(Regex.REGEX_CODE)){
+        this.codePostal = codePostal;}
+        else {
+            throw new IllegalArgumentException("Code postal invalide");
+        }
     }
 
     public String getVille() {

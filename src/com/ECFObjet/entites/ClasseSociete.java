@@ -1,5 +1,6 @@
 package com.ECFObjet.entites;
 import com.ECFObjet.entites.*;
+import com.ECFObjet.utility.Regex;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,12 @@ abstract class ClasseSociete {
     }
 
     public void setTelephone(String telephone) {
-        this.telephone = telephone;
+        if (!telephone.matches(Regex.REGEX_TEL)) {
+        this.telephone = telephone;}
+        else {
+            throw new IllegalArgumentException("Erreur le numéro de téléphone est invalide");
+        }
+
     }
 
     public String getEmail() {
@@ -67,10 +73,14 @@ abstract class ClasseSociete {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (!email.matches(Regex.REGEX_MAIL)){
+        this.email = email;}
+        else {
+            throw new IllegalArgumentException("Erreur l'adresse mail est incorrecte");
+        }
     }
 
-    private boolean raisonSocialeUnique(String nouvelleRaison) {
+    public static boolean raisonSocialeUnique(String nouvelleRaison) {
 
         for (ClasseSociete client : GestionnaireClient.getGestClient()) {
             if (client.getRaisonSociale().equalsIgnoreCase(nouvelleRaison)) {
