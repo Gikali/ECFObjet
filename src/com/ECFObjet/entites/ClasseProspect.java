@@ -10,8 +10,8 @@ public class ClasseProspect extends ClasseSociete {
     private static int prochainIdentifiantProspect = 1;
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public ClasseProspect( String raisonSociale, String adresse, String telephone, String email, String dateProspection, boolean estInteresse) {
-        super( raisonSociale, adresse, telephone, email);
+    public ClasseProspect( String raisonSociale, ClasseAdresse adresse, String telephone, String email, String dateProspection, boolean estInteresse, String commentaire) {
+        super( raisonSociale, adresse, telephone, email, commentaire);
         setDateProspection(dateProspection);
         setEstInteresse(estInteresse);
         setIdentifiant(prochainIdentifiantProspect++);
@@ -41,6 +41,7 @@ public class ClasseProspect extends ClasseSociete {
     }
 
     public int getProchainIdentifiantProspect() {
+
         return prochainIdentifiantProspect;
     }
 

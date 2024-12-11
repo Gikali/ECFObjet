@@ -40,12 +40,12 @@ public class ClasseAdresse {
     }
 
     public void setCodePostal(String codePostal) {
-        if (!codePostal.matches(Regex.REGEX_CODE)){
-        this.codePostal = codePostal;}
-        else {
-            throw new IllegalArgumentException("Code postal invalide");
+        if (codePostal == null || !codePostal.matches(Regex.REGEX_CODE)) {
+            throw new IllegalArgumentException("Code postal invalide : " + codePostal);
         }
+        this.codePostal = codePostal;
     }
+
 
     public String getVille() {
         return ville;

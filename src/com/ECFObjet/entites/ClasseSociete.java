@@ -1,5 +1,5 @@
 package com.ECFObjet.entites;
-import com.ECFObjet.entites.*;
+import com.ECFObjet.entites.ClasseAdresse;
 import com.ECFObjet.utility.Regex;
 
 import java.util.ArrayList;
@@ -7,19 +7,21 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 
-abstract class ClasseSociete {
+public abstract class ClasseSociete {
     private int identifiant;
     private String raisonSociale;
     private String adresse;
     private String telephone;
     private String email;
+    private String commentaire;
 
-
-    public ClasseSociete( String raisonSociale, String adresse, String telephone, String email) {
+    public ClasseSociete( String raisonSociale, ClasseAdresse adresse, String telephone, String email, String commentaire) {
         setRaisonSociale(raisonSociale);
         setAdresse(adresse);
         setTelephone(telephone);
         setEmail(email);
+        setCommentaire(commentaire);
+
     }
 
     public ClasseSociete() {
@@ -51,8 +53,12 @@ abstract class ClasseSociete {
         return adresse;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setAdresse(ClasseAdresse adresse) throws IllegalArgumentException {
+        if (adresse == null) {
+            throw new IllegalArgumentException("L'adresse ne peut pas être vide");
+        }
+
+        this.adresse = adresse.getNumeroRue() + " " + adresse.getNomRue() + ", " + adresse.getVille() + " " + adresse.getCodePostal();
     }
 
     public String getTelephone() {
@@ -60,11 +66,10 @@ abstract class ClasseSociete {
     }
 
     public void setTelephone(String telephone) {
-        if (!telephone.matches(Regex.REGEX_TEL)) {
-        this.telephone = telephone;}
-        else {
-            throw new IllegalArgumentException("Erreur le numéro de téléphone est invalide");
+        if (telephone == null || !telephone.trim().matches(Regex.REGEX_TEL)) {
+            throw new IllegalArgumentException("Erreur : le numéro de téléphone " + telephone + " est invalide.");
         }
+        this.telephone = telephone.trim();
 
     }
 
@@ -78,6 +83,17 @@ abstract class ClasseSociete {
         else {
             throw new IllegalArgumentException("Erreur l'adresse mail est incorrecte");
         }
+    }
+
+    public String getCommentaire() {
+        return commentaire;
+    }
+
+    public void setCommentaire(String commentaire) {
+        if (commentaire == null || commentaire.isEmpty()) {
+            commentaire = "";
+        }
+        this.commentaire = commentaire;
     }
 
     public static boolean raisonSocialeUnique(String nouvelleRaison) {
@@ -94,6 +110,10 @@ abstract class ClasseSociete {
             }
         }
         return true;
+    }
+    @Override
+    public String toString() {
+        return raisonSociale + " id: " + identifiant;
     }
 }
 

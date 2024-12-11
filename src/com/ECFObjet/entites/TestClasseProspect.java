@@ -7,11 +7,12 @@ public class TestClasseProspect {
 
     @Test
     public void CreateClasseProspect() {
-        ClasseProspect prospect = new ClasseProspect("Société B","rue machin","0648547269","moil@ff.fr","06/09/2024",true);
+        ClasseAdresse adresse = new ClasseAdresse(12, "Rue de Paris", "75001", "Paris");
+        ClasseProspect prospect = new ClasseProspect("Société B",adresse,"06-12-34-56-78","moil@ff.fr","06/09/2024",true,"");
 
         assertEquals("Société B", prospect.getRaisonSociale());
-        assertEquals("rue machin", prospect.getAdresse());
-        assertEquals("0648547269", prospect.getTelephone());
+        assertEquals("12 Rue de Paris, 75001 Paris", prospect.getAdresse());
+        assertEquals("06-12-34-56-78", prospect.getTelephone());
         assertEquals("moil@ff.fr", prospect.getEmail());
         assertEquals("06/09/2024", prospect.getDateProspection());
         assertEquals(true, prospect.getEstInteresse());
@@ -19,8 +20,9 @@ public class TestClasseProspect {
     }
     @Test
     void testIncrementIdentifiant() {
-        ClasseProspect prospect1 = new ClasseProspect("Société B", "Adresse A", "0123456789", "contact@a.com", "05/09/2024", true);
-        ClasseProspect prospect2 = new ClasseProspect("Société C", "Adresse B", "0123456790", "contact@b.com", "06/05/2024", false);
+        ClasseAdresse adresse = new ClasseAdresse(12, "Rue de Paris", "75001", "Paris");
+        ClasseProspect prospect1 = new ClasseProspect("Société B", adresse, "06-12-34-56-78", "contact@a.com", "05/09/2024", true,"");
+        ClasseProspect prospect2 = new ClasseProspect("Société C", adresse, "06-12-34-56-78", "contact@b.com", "06/05/2024", false,"");
 
         assertEquals(1, prospect1.getIdentifiant());
         assertEquals(2, prospect2.getIdentifiant());

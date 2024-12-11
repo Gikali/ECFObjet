@@ -1,4 +1,6 @@
 package com.ECFObjet.entites;
 
-public class TypeSociete {
+public enum TypeSociete {
+    CLIENT,
+    PROSPECT
 }

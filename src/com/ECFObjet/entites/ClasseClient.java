@@ -5,8 +5,8 @@ public class ClasseClient extends ClasseSociete {
     private int nombreEmployes;
     private static  int prochainIdentifiantClient = 1;
 
-    public ClasseClient ( String raisonSociale, String adresse, String telephone, String email, long chiffreAffaires, int nombreEmployes) {
-        super( raisonSociale, adresse, telephone, email);
+    public ClasseClient ( String raisonSociale, ClasseAdresse adresse, String telephone, String email, long chiffreAffaires, int nombreEmployes, String commentaire) {
+        super( raisonSociale, adresse, telephone, email, commentaire );
 
         setChiffreAffaires(chiffreAffaires);
         setNombreEmployes(nombreEmployes);
