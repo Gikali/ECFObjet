@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class GestionnaireClient {
     private static ArrayList<ClasseClient> gestClient = new ArrayList<>();
 
-    public void ajoutClient (ClasseClient client) {
+    public static void ajoutClient (ClasseClient client) {
         gestClient.add(client);
     }
 

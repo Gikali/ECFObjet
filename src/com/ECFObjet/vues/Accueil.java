@@ -20,6 +20,9 @@ public class Accueil extends JFrame {
     private JComboBox comboBox1;
     private JButton Valider;
     private TypeSociete typeSociete;
+    private TypeCRUD typeCRUD;
+    private MajTable majTable;
+    private ClasseSociete selecSociete;
 
     public Accueil() {
         initComponents();
@@ -42,7 +45,13 @@ public class Accueil extends JFrame {
     }
 
     private void addListeners() {
+        comboBox1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+              selecSociete = (ClasseSociete) comboBox1.getSelectedItem();
+            }
 
+
+    });
         Création.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (typeSociete == null) {
@@ -60,11 +69,19 @@ public class Accueil extends JFrame {
         });
         Modification.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                typeCRUD = TypeCRUD.UPDATE;
+                if (selecSociete == null) {
+                    JOptionPane.showMessageDialog(null, "veuillez choisir une société");
+                    return;
+                }
+                CreaModif creamodif = new CreaModif(selecSociete,typeCRUD,typeSociete,majTable);
+                creamodif.setVisible(true);
 
             }
         });
         Suppression.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                typeCRUD = TypeCRUD.DELETE;
 
             }
         });
@@ -113,7 +130,6 @@ public class Accueil extends JFrame {
         for (ClasseClient client : getGestClient()) {
 
             comboBox1.addItem(client);
-
         }
     }
 

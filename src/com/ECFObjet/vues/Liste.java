@@ -10,11 +10,12 @@ import static com.ECFObjet.entites.GestionnaireClient.getGestClient;
 import static com.ECFObjet.entites.GestionnaireProspect.getGestProspect;
 
 
-public class Liste extends JFrame {
+public class Liste extends JFrame implements MajTable {
     private JPanel contentPane;
     private JTable  table1;
     private JButton Quitter;
     private JButton Accueil;
+    private TypeSociete typeSociete;
 
 
     public Liste(TypeSociete typeSociete) {
@@ -116,7 +117,13 @@ public class Liste extends JFrame {
         table1.setModel(modelTable);
     }
 
-
+public  void majTable() {
+    if (typeSociete == TypeSociete.CLIENT) {
+        remplissageClient(getGestClient());
+    } else if (typeSociete == TypeSociete.PROSPECT) {
+        remplissageProspect(getGestProspect());
+    }
+}
 
     private void onCancel() {
         // add your code here if necessary

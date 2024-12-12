@@ -2,9 +2,12 @@ package com.ECFObjet.vues;
 
 import com.ECFObjet.entites.TypeSociete;
 import com.ECFObjet.entites.*;
-
+import com.ECFObjet.entites.GestionnaireClient;
+import com.ECFObjet.vues.*;
 import javax.swing.*;
 import java.awt.event.*;
+
+
 
 public class CreaModif extends JFrame {
     private JPanel contentPane;
@@ -29,35 +32,73 @@ public class CreaModif extends JFrame {
     private JLabel interet;
     private JComboBox interetbox;
     private JTextField nomruetxt;
-    private JTextField codepostaltxt;
     private JTextField villetxt;
+    private JTextField codepostaltxt;
     private JLabel nomrue;
     private JLabel codepostal;
     private JLabel ville;
     private TypeSociete typeSociete;
+    private TypeCRUD typeCRUD;
+    private MajTable majTable;
 
     public CreaModif(TypeSociete typeSociete) {
+        this.typeSociete = typeSociete;
         initcomponent();
         addListeners();
-        if (typeSociete == TypeSociete.CLIENT) {
-            prospectiontxt.setVisible(false);
-            dateprospection.setVisible(false);
-            interetbox.setVisible(false);
-            interet.setVisible(false);
-        } else if (typeSociete == TypeSociete.PROSPECT) {
-            affairetxt.setVisible(false);
-            employestxt.setVisible(false);
-            chiffreaffaire.setVisible(false);
-            nbmemployes.setVisible(false);
+
+
+
+    }
+
+    public CreaModif(ClasseSociete classeSociete,TypeCRUD typeCRUD, TypeSociete typeSociete, MajTable majTable) {
+
+        this.typeCRUD = typeCRUD;
+        this.typeSociete = typeSociete;
+        this.majTable = majTable;
+        initcomponent();
+        addListeners();
+        raisonsocialetxt.setText(classeSociete.getRaisonSociale());
+        String adresseString = classeSociete.getAdresse();
+        String[] adressesPart = adresseString.split(",");
+
+        numeroruetxt.setText(adressesPart[0].trim());
+        nomruetxt.setText(adressesPart[1].trim());
+        codepostaltxt.setText(adressesPart[2].trim());
+        villetxt.setText(adressesPart[3].trim());
+        mailtxt.setText(classeSociete.getEmail());
+        commentaire.setText(classeSociete.getCommentaire());
+        teletxt.setText(classeSociete.getTelephone().toString());
+
+        if (classeSociete instanceof ClasseClient ) {
+           ClasseClient classeClient = (ClasseClient) classeSociete;
+           affairetxt.setText(String.valueOf(classeClient.getChiffreAffaires()));
+           employestxt.setText((String.valueOf(classeClient.getNombreEmployes())));
+
         }
-
-
+        if (classeSociete instanceof ClasseProspect ) {
+            ClasseProspect classeProspect = (ClasseProspect) classeSociete;
+            prospectiontxt.setText(String.valueOf(classeProspect.getDateProspection()));
+            interetbox.setSelectedItem(classeProspect.getEstInteresse() ? "Oui" : "Non");
+        }
     }
 
     private void initcomponent() {
         setContentPane(contentPane);
         setSize(500, 500);
         remplirindex(interetbox);
+        if (typeSociete == TypeSociete.CLIENT) {
+            prospectiontxt.setVisible(false);
+            dateprospection.setVisible(false);
+            interetbox.setVisible(false);
+            interet.setVisible(false);
+            typeSociete = TypeSociete.CLIENT;
+        } else if (typeSociete == TypeSociete.PROSPECT) {
+            affairetxt.setVisible(false);
+            employestxt.setVisible(false);
+            chiffreaffaire.setVisible(false);
+            nbmemployes.setVisible(false);
+            typeSociete = TypeSociete.PROSPECT;
+        }
     }
 
     private void addListeners() {
@@ -79,22 +120,43 @@ public class CreaModif extends JFrame {
         validerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String raisonsociale = raisonsocialetxt.getText();
-                ClasseAdresse adresse =  numeroruetxt.getText();
+                int numerorue = Integer.parseInt(numeroruetxt.getText());
+                String nomrue = nomruetxt.getText();
+                String codepostal = codepostaltxt.getText();
+                String ville = villetxt.getText();
                 String tel = teletxt.getText();
                 String mail = mailtxt.getText();
                 String comment = commentaire.getText();
-                long chiffreAffaire = Long.parseLong(chiffreaffaire.getText());
-                int nmemployes = Integer.parseInt(nbmemployes.getText());
-                String datepro = dateprospection.getText();
-                boolean interettrue = interetbox.getSelectedItem() == "oui";
-                boolean interetfalse = interetbox.getSelectedItem() == "non";
-                ClasseSociete nouvelSociete
-                if (raisonsociale.isEmpty() || adresse.isEmpty() || tel.isEmpty() || mail.isEmpty() || comment.isEmpty()) {
+                ClasseAdresse adresse = new ClasseAdresse(numerorue, nomrue, codepostal, ville);
+                ClasseClient nouveauClient;
+                ClasseProspect nouveauProspect;
+
+                if (raisonsociale.isEmpty() || nomrue.isEmpty() || codepostal.isEmpty() || ville.isEmpty() || tel.isEmpty() || mail.isEmpty()) {
                     JOptionPane.showMessageDialog(contentPane, "veuillez remplir les champs obligatoires");
                     return;
                 }
                 if (typeSociete == TypeSociete.CLIENT) {
-                nouvelSociete = new ClasseClient(raisonsociale,adresse,tel,mail,chiffreAffaire,nmemployes,comment);
+                    long chiffreAffaire = Long.parseLong(affairetxt.getText().trim());
+                    int nmemployes = Integer.parseInt(employestxt.getText());
+                    nouveauClient = new ClasseClient(raisonsociale, adresse, tel, mail, chiffreAffaire, nmemployes, comment);
+                    GestionnaireClient.ajoutClient(nouveauClient);
+                    JOptionPane.showMessageDialog(null, "Client ajouté");
+
+                }
+
+                else if (typeSociete == TypeSociete.PROSPECT) {
+                    String datepro = prospectiontxt.getText();
+                    boolean interet = getBooleanInteret(interetbox);
+                    nouveauProspect = new ClasseProspect(raisonsociale,adresse,tel,mail,datepro,interet,comment);
+                    GestionnaireProspect.ajoutProspect(nouveauProspect);
+                    JOptionPane.showMessageDialog(null,"Prospect ajouté");
+
+                }
+                else { JOptionPane.showMessageDialog(null, "SOciété nulle");
+                }
+
+                if (majTable != null) {
+                    majTable.majTable();
                 }
 
 
@@ -123,13 +185,15 @@ public class CreaModif extends JFrame {
     }
 
     private void remplirindex(JComboBox interetbox) {
-        String oui;
-        String non;
-        non = "non";
-        oui = "oui";
-       interetbox.addItem(oui);
-       interetbox.addItem(non);
 
+        interetbox.addItem("oui");
+        interetbox.addItem("non");
+        interetbox.setSelectedIndex(0);
+    }
+
+    private boolean getBooleanInteret(JComboBox<String> interetbox) {
+        String interet = (String) interetbox.getSelectedItem();
+        return "oui".equalsIgnoreCase(interet);
     }
 
     private void onOK() {

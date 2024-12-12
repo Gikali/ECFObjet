@@ -10,7 +10,7 @@ import java.util.HashSet;
 public abstract class ClasseSociete {
     private int identifiant;
     private String raisonSociale;
-    private String adresse;
+    private  String adresse;
     private String telephone;
     private String email;
     private String commentaire;
@@ -58,7 +58,7 @@ public abstract class ClasseSociete {
             throw new IllegalArgumentException("L'adresse ne peut pas être vide");
         }
 
-        this.adresse = adresse.getNumeroRue() + " " + adresse.getNomRue() + ", " + adresse.getVille() + " " + adresse.getCodePostal();
+        this.adresse = adresse.getNumeroRue() + "," + adresse.getNomRue() + "," + adresse.getVille() + "," + adresse.getCodePostal();
     }
 
     public String getTelephone() {

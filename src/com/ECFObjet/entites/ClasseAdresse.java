@@ -54,4 +54,6 @@ public class ClasseAdresse {
     public void setVille(String ville) {
         this.ville = ville;
     }
+
+
 }
