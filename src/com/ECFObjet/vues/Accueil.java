@@ -54,6 +54,7 @@ public class Accueil extends JFrame {
     });
         Création.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                typeCRUD = TypeCRUD.CREATE;
                 if (typeSociete == null) {
                     JOptionPane.showMessageDialog(null, "veuillez choisir client ou prospect");
                     return;
@@ -83,8 +84,57 @@ public class Accueil extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 typeCRUD = TypeCRUD.DELETE;
 
+                // Vérifiez qu'une société est sélectionnée
+                if (selecSociete == null) {
+                    JOptionPane.showMessageDialog(null, "Veuillez choisir une société");
+                    return;
+                }
+
+                // Suppression selon le type de société
+                if (typeSociete == TypeSociete.CLIENT) {
+                    // Rechercher l'objet dans la liste
+                    ArrayList<ClasseClient> gestClient = GestionnaireClient.getGestClient();
+                    ClasseClient clientToRemove = null;
+
+                    for (ClasseClient client : gestClient) {
+                        if (client.equals(selecSociete)) { // Vérifie si c'est le même objet
+                            clientToRemove = client;
+                            break;
+                        }
+                    }
+
+                    if (clientToRemove != null) {
+                        gestClient.remove(clientToRemove);
+                        remplirComboBoxClient(comboBox1);
+                        JOptionPane.showMessageDialog(null, "Client supprimé");
+                    }
+
+                } else if (typeSociete == TypeSociete.PROSPECT) {
+                    // Rechercher l'objet dans la liste
+                    ArrayList<ClasseProspect> gestProspect = GestionnaireProspect.getGestProspect();
+                    ClasseProspect prospectToRemove = null;
+
+                    for (ClasseProspect prospect : gestProspect) {
+                        if (prospect.equals(selecSociete)) { // Vérifie si c'est le même objet
+                            prospectToRemove = prospect;
+                            break;
+                        }
+                    }
+
+                    if (prospectToRemove != null) {
+                        gestProspect.remove(prospectToRemove);
+                        remplirComboBoxProspect(comboBox1);
+                        JOptionPane.showMessageDialog(null, "Prospect supprimé");
+                    }
+                }
+
+                // Rafraîchir la table ou l'affichage après suppression
+                if (majTable != null) {
+                    majTable.majTable();
+                }
             }
         });
+
         Affichage.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (typeSociete == null) {

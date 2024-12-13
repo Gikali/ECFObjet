@@ -1,6 +1,7 @@
 package com.ECFObjet.entites;
 import com.ECFObjet.entites.ClasseAdresse;
 import com.ECFObjet.utility.Regex;
+import com.ECFObjet.entites.TypeCRUD;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ public abstract class ClasseSociete {
     private String telephone;
     private String email;
     private String commentaire;
+    private TypeCRUD typeCRUD;
 
     public ClasseSociete( String raisonSociale, ClasseAdresse adresse, String telephone, String email, String commentaire) {
         setRaisonSociale(raisonSociale);
@@ -41,7 +43,7 @@ public abstract class ClasseSociete {
     }
 
     public void setRaisonSociale(String nouvelleRaison) throws IllegalArgumentException {
-        if (raisonSocialeUnique(nouvelleRaison)) {
+        if (raisonSocialeUnique(nouvelleRaison, typeCRUD)) {
             this.raisonSociale = nouvelleRaison;
         } else {
             throw new IllegalArgumentException("Erreur : La raison sociale '" + nouvelleRaison + "' existe déjà !");
@@ -96,16 +98,16 @@ public abstract class ClasseSociete {
         this.commentaire = commentaire;
     }
 
-    public static boolean raisonSocialeUnique(String nouvelleRaison) {
+    public static boolean raisonSocialeUnique(String nouvelleRaison, TypeCRUD typeCRUD) {
 
         for (ClasseSociete client : GestionnaireClient.getGestClient()) {
-            if (client.getRaisonSociale().equalsIgnoreCase(nouvelleRaison)) {
+            if (client.getRaisonSociale().equalsIgnoreCase(nouvelleRaison) && typeCRUD == TypeCRUD.CREATE) {
                 return false;
             }
         }
 
         for (ClasseSociete prospect : GestionnaireProspect.getGestProspect()) {
-            if (prospect.getRaisonSociale().equalsIgnoreCase(nouvelleRaison)) {
+            if (prospect.getRaisonSociale().equalsIgnoreCase(nouvelleRaison)&& typeCRUD == TypeCRUD.CREATE) {
                 return false;
             }
         }
